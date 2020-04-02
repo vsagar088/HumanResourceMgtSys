@@ -9,8 +9,16 @@
         function fillSubcategory() {
             var value = $("#emp_type option:selected");
             $("#emp_yearcategory").val(value.text());
-        }  
+        }
+        function ShowHideDiv() {
+            var chkYes = document.getElementById("ddzone");
+            var dvtext = document.getElementById("dvtext");
+            dvtext.style.display = chkYes.checked ? "block" : "none";
+        }
     </script>
+
+
+     
 }
 
 <div class="content-wrapper">
@@ -42,15 +50,16 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="col-md-12  form-group pull-left">
-                                    <Label ID="Label29" Class="lablehead pull-left" >Mode of Appointment:</Label>
+                                    <Label ID="Label29" Class="lablehead pull-left">Mode of Appointment:</Label>
                                     <select ID="ap_type" Class="ddl width150" name="ap_type" Height="29px" style="margin-top:30px;">
                                         <option Value="0">Select</option>
-x                                        <option Value="1">Direct appointment</option>
+                                        x
+                                        <option Value="1">Direct appointment</option>
                                         <option Value="2">Contract</option>
                                         <option Value="3">Adhoc</option>
                                     </select>
-                                  
-                                    <input type="text" ID="txtapp_type" CssClass="textbox"  class="hidden" />
+
+                                    <input type="text" ID="txtapp_type" CssClass="textbox" class="hidden" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -65,7 +74,7 @@ x                                        <option Value="1">Direct appointment</o
                                         <option Value="5">UPPSC</option>
                                         <option Value="6">Other</option>
                                     </select>
-                                    
+
                                     <Label ID="Label11" Font-Bold="True" ForeColor="#CC0000"></Label>
                                 </div>
                             </div>
@@ -93,9 +102,9 @@ x                                        <option Value="1">Direct appointment</o
                             </div>
                             <div class="col-md-4">
                                 <div class="col-md-12  form-group pull-left">
-                                    <input type="radio" ID="rdT" Checked="True"/>
+                                    <input type="radio" ID="rdT" Checked="True" />
                                     <label for="radiolbl">Technical</label>
-                                    <input type="radio" ID="rdNT"  />
+                                    <input type="radio" ID="rdNT" />
                                     <label for="radiolbl">Non-Technical</label>
                                 </div>
                             </div>
@@ -112,7 +121,7 @@ x                                        <option Value="1">Direct appointment</o
                             <div class="col-md-5">
                                 <div class="col-md-12  form-group pull-left">
                                     <Label ID="Label44" Class="lablehead pull-left">Pay Scale:</Label>
-                                    <input type="text" ID="ddpay" Class="form-control"/>
+                                    <input type="text" ID="ddpay" Class="form-control" />
 
                                 </div>
                             </div>
@@ -120,32 +129,37 @@ x                                        <option Value="1">Direct appointment</o
                         <div class="row ">
                             <div class="col-md-12" style="background-color: #F5F5F5; border-radius: 25px;">
                                 <div class="col-md-4 form-group pull-left padding-top-bottom8">
-                                    <Label ID="Label53" Class="lablehead pull-left  pull-left-text" >Appoint to Office :</Label>
-                                    <input type="radio" ID="rdz" Class="lablehead pull-left" value="Zone" />
+                                    <Label ID="Label53" Class="lablehead pull-left  pull-left-text">Appoint to Office :</Label>
+                                    <input type="radio" ID="rdz" name="office" Class="lablehead pull-left" value="Zone" checked="checked" onclick="ShowHideDiv()" />
                                     <label for="radiolbl" Class="lablehead pull-left">Zone</label>
-                                    <input type="radio" ID="rdc" Class="lablehead pull-left" value="Circle" OnCheckedChanged="rdc_CheckedChanged" /> 
+                                    <input type="radio" ID="rdc" name="office" Class="lablehead pull-left" value="Circle" onclick="ShowHideDiv()" />
                                     <label for="radiolbl" Class="lablehead pull-left">Circle</label>
-                                    <input type="radio" ID="rdd" Class="lablehead pull-left"  value="Division" OnCheckedChanged="rdd_CheckedChanged" />
+                                    <input type="radio" ID="rdd" name="office" Class="lablehead pull-left" value="Division" onclick="ShowHideDiv()" />
                                     <label for="radiolbl" Class="lablehead pull-left">Division</label>
-                                    <input type="radio" ID="rdo" Class="lablehead pull-left"  value="Other" OnCheckedChanged="rdo_CheckedChanged" />
+                                    <input type="radio" ID="rdo" name="office" Class="lablehead pull-left" value="Other" onclick="ShowHideDiv()" />
                                     <label for="radiolbl" Class="lablehead pull-left">Other</label>
                                 </div>
                                 <div class="col-md-8  form-group pull-left">
-                                    <Label ID="Label54" Class="lablehead width100 pull-left-text padding-top-bottom8 pull-left" Text="">Select Zone:</Label>
-                                    <select ID="ddzone" Class="ddl  pull-left width100 " Height="29px">
-                                        <option>select</option>
-                                    </select>
+                                    <div id="dvtext1">
+                                        <Label ID="Label54" Class="lablehead width100 pull-left-text padding-top-bottom8 pull-left" Text="">Select Zone:</Label>
+                                        <select ID="ddzone" Class="ddl  pull-left width100 " Height="29px">
+                                            <option>select</option>
+                                        </select>
+                                    </div>
+                                    <div id="dvtext2" style="display: none">
+                                        <Label ID="Label34" Class="lablehead width100 pull-left-text padding-top-bottom8 pull-left" Text="Select Circle:" Visible="False" class="hidden">Select Circle:</Label>
+                                        <select ID="ddcircle" Class="ddl  pull-left width100" Visible="False" Height="29px" class="hidden"></select>
+                                    </div>
+                                    <div id="dvtext3" style="display: none;margin-right: -20px">
+                                        <Label ID="Label43" Class="lablehead width150 pull-left-text padding-top-bottom8 pull-left" Text="" Visible="False" class="hidden">Select Division:</Label>
+                                        <select ID="dddivision"  AutoPostBack="True" Class="ddl  pull-left width100 " Visible="False" Height="29px" class="hidden" style="margin-left: -23px;"></select>
+                                    </div>
+                                    <div id="dvtext4" style="display: none">
+                                        <input type="text" ID="txtoffice" Class="form-control pull-left" placeholder="Enter Your Office Name" Visible="False" class="hidden" />
 
-                                    <Label ID="Label34" Class="lablehead width100 pull-left-text padding-top-bottom8 pull-left" Text="Select Circle:" Visible="False" class="hidden">Select Circle:</Label>
-                                    <select ID="ddcircle" Class="ddl  pull-left width100" Visible="False" Height="29px" class="hidden"></select>
-
-                                    <Label ID="Label43" Class="lablehead width150 pull-left-text padding-top-bottom8 pull-left" Text="" Visible="False" class="hidden">Select Division:</Label>
-                                    <select ID="dddivision" runat="server" AutoPostBack="True" Class="ddl  pull-left width100 " Visible="False" Height="29px" class="hidden"></select>
-
-                                    <input type="text" ID="txtoffice" Class="form-control pull-left" placeholder="Enter Your Office Name" Visible="False" class="hidden" />
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     </section>
                 </td>
@@ -174,6 +188,40 @@ x                                        <option Value="1">Direct appointment</o
                 </td>
             </tr>
         </table>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("input[name='office']").click(function () {
+                    if ($("#rdz").is(":checked")) {
+                        $("#dvtext1").show();
+                        $("#dvtext4").hide();
+                        $("#dvtext3").hide();
+                        $("#dvtext2").hide();
+                    }
+                    else if ($("#rdc").is(":checked")) {
+                        $("#dvtext2").show();
+                        $("#dvtext1").show();
+                        $("#dvtext3").hide();
+                        $("#dvtext4").hide();
+                    }
+                    else if ($("#rdd").is(":checked")) {
+                        $("#dvtext3").show();
+                        $("#dvtext2").show();
+                        $("#dvtext1").show();
+                        $("#dvtext4").hide();
+                    }
+                    else if ($("#rdo").is(":checked")) {
+                        $("#dvtext4").show();
+                        $("#dvtext3").hide();
+                        $("#dvtext2").hide();
+                        $("#dvtext1").hide();
+                    }
+                    else {
+                        $("#dvtext1").show();
+                    }
+                });
+            });
+        </script>
     }
 </div>
 

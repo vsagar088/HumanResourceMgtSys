@@ -1,0 +1,434 @@
+﻿@using System.Data;
+@using HumanResourceMgtSys.CustomClasses;
+@model HumanResourceMgtSys.Models.EmpAddressDetail
+@{
+    SqlHelper obj = new SqlHelper();
+
+
+    ViewBag.Title = "EmpHomeDistrict";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+
+    DataTable tblhomestate = obj.GetDataTable(@"select id,state_nm FROM Master_state order by id");
+    List<CommonMaster> state = new List<CommonMaster>();
+    if (tblhomestate.Rows.Count > 0)
+    {
+        for (int i = 0; i < tblhomestate.Rows.Count; i++)
+        {
+            CommonMaster sta = new CommonMaster();
+            sta.id = Convert.ToInt32(tblhomestate.Rows[i]["id"].ToString().Trim());
+            sta.name = tblhomestate.Rows[i]["state_nm"].ToString().Trim();
+            state.Add(sta);
+        }
+    }
+
+
+
+    DataTable tblhomedistrict = obj.GetDataTable(@"select DistrictId,DistrictName,StateId FROM Master_District order by DistrictID");
+    List<CommonMaster> district = new List<CommonMaster>();
+    if (tblhomedistrict.Rows.Count > 0)
+    {
+        for (int i = 0; i < tblhomedistrict.Rows.Count; i++)
+        {
+            CommonMaster dis = new CommonMaster();
+            dis.id = Convert.ToInt32(tblhomedistrict.Rows[i]["DistrictId"].ToString().Trim());
+            dis.name = tblhomedistrict.Rows[i]["DistrictName"].ToString().Trim();
+            // dis.stateid = Convert.ToInt32(tblhomedistrict.Rows[i]["StateId"].ToString().Trim());
+            district.Add(dis);
+        }
+    }
+
+    DataTable tblhometehsil = obj.GetDataTable(@"select StateId,DistrictId,TehsilId,tehsil_name from tehsil_mas");
+    List<CommonMaster> tehsil = new List<CommonMaster>();
+    if (tblhometehsil.Rows.Count > 0)
+    {
+        for (int i = 0; i < tblhometehsil.Rows.Count; i++)
+        {
+            CommonMaster teh = new CommonMaster();
+            teh.id = Convert.ToInt32(tblhometehsil.Rows[i]["TehsilId"].ToString().Trim());
+            teh.name = tblhometehsil.Rows[i]["tehsil_name"].ToString().Trim();
+            // dis.stateid = Convert.ToInt32(tblhomedistrict.Rows[i]["StateId"].ToString().Trim());
+            tehsil.Add(teh);
+        }
+    }
+
+
+    DataTable tblvidhansabha = obj.GetDataTable(@"select ConstituencyId,DistrictId,Constituency,Status from tblConstituency");
+    List<CommonMaster> vidhan = new List<CommonMaster>();
+    if (tblvidhansabha.Rows.Count > 0)
+    {
+        for (int i = 0; i < tblvidhansabha.Rows.Count; i++)
+        {
+            CommonMaster vid = new CommonMaster();
+            vid.id = Convert.ToInt32(tblvidhansabha.Rows[i]["ConstituencyId"].ToString().Trim());
+
+            //vid.disid = Convert.ToInt32(tblvidhansabha.Rows[i]["DistrictId"].ToString().Trim());
+            vid.name = tblvidhansabha.Rows[i]["Constituency"].ToString().Trim();
+            //vid.stateid = Convert.ToInt32(tblvidhansabha.Rows[i]["StateId"].ToString().Trim());
+            vidhan.Add(vid);
+        }
+    }
+
+}
+
+<div class="content-wrapper">
+    <div id="headderDivToPrint" style="display: none;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 15%">
+                    <img src="~/Content/assets/img/logo.png" />
+                </td>
+                <td style="text-align: center;">
+                    <h1 class="box-title">Human Resource Management System, PWD Uttarakhand</h1>
+                </td>
+                <td style="width: 15%"></td>
+            </tr>
+        </table>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <table id="entryHomeDistrict" class="panel panel-info" style="border: 1px solid #c0c0c0; width: 100%;">
+            <tr>
+                <td class="pannelHeadder">
+                    <Label ID="Label15" Style="font-weight: 700" Font-Bold="True" Font-Size="Large" ForeColor="White">Employee Per Details</Label>
+                    <Button ID="btnResetHomeDist" CssClass="btn btn-sm btn-success pull-right " OnClick="btnResetHomeDist_Click"
+                            Text="" Font-Size="X-Small" Style="margin-right: 20px;">
+                        Reset For State
+                    </Button>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <section class="content" style="min-height: 50px;">
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-right">
+                                    @{
+                                        <input type="text" class="hide" name="emp_code" id="emp_code" value="TempData[" mydata]" />
+                                    }
+                                    <Label ID="Label23" CssClass="lablehead width150" style="display:block;"> Home State:</Label>
+                                    <select id="h_State" name="h_State" class="ddl width150" Height="29px">
+                                        <option value="0">--Select--</option>
+                                        @foreach (var item in state)
+                                        {
+                                            <option value="@item.name">@item.name</option>
+                                        }
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-right">
+                                    <Label ID="Label46" CssClass="lablehead width150">Home District:</Label>
+                                    <select id="h_district" name="h_district" class="ddl width150" Height="29px">
+                                        <option value="0">--Select--</option>
+                                        @foreach (var item in district)
+                                        {
+                                            <option value="@item.name">@item.name</option>
+                                        }
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-right">
+                                    <Label ID="Label16" CssClass="lablehead width150" style="display:block;">Home Tehsil:</Label>
+
+                                    <select id="h_Tehsil" name="h_Tehsil" class="ddl width150" Height="29px">
+                                        <option value="0">--Select--</option>
+                                        @foreach (var item in district)
+                                        {
+                                            <option value="@item.name">@item.name</option>
+                                        }
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-right">
+                                    <Label ID="Label24" CssClass="lablehead width150">Home Vidhan Sabha:</Label>
+
+                                    <select id="h_Vidhan_Sabha" name="h_Vidhan_Sabha" class="ddl width150" Height="29px">
+                                        <option value="0">--Select--</option>
+                                        @foreach (var item in vidhan)
+                                        {
+                                            <option value="@item.name">@item.name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                </td>
+            </tr>
+        </table>
+        <table id="entry12" class="panel panel-info" style="border: 1px solid #c0c0c0; width: 100%;">
+            <tr>
+                <td class="pannelHeadder">
+                    <Label ID="Label45" Style="font-weight: 700" Font-Bold="True" Font-Size="Large" ForeColor="White">Permanent Address Details</Label>
+                    <Button ID="Button8" CssClass="btn btn-sm btn-success pull-right "
+                            Text="" Font-Size="X-Small" Style="margin-right: 20px;">
+                        Reset For State
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <section class="content" style="min-height: 50px;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-right">
+                                    <Label ID="Label13" CssClass="lablehead width150" style="display:block;">State:</Label>
+                                    <select ID="p_state" name="p_state" Class="ddl width150" Height="29px">
+                                        <option value="0">--Select--</option>
+                                        @foreach (var item in state)
+                                        {
+                                            <option value="@item.name">@item.name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-right">
+                                    <Label ID="Label12" CssClass="lablehead width150">District:</Label>
+                                    <select ID="p_district" name="p_district" Class="ddl width150 " Height="29px">
+                                        <option value="0">--Select--</option>
+                                        @foreach (var item in district)
+                                        {
+                                            <option value="@item.name">@item.name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-right">
+                                    <Label ID="Label17" CssClass="lablehead width150" style="display:block;">Tehsil:</Label>
+                                    <select ID="p_town" name="p_town" Class="ddl width150 " Height="29px">
+                                        <option value="0">--Select--</option>
+                                        @foreach (var item in district)
+                                        {
+                                            <option value="@item.name">@item.name</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-left">
+                                    <Label ID="Label10" CssClass="lablehead width150 pull-left" Style="vertical-align: top;">Permanent Address:</Label>
+                                    <input type="text" ID="p_add" name="p_add" CssClass="form-control width200 pull-left " placeholder="Permanent Address" TextMode="MultiLine" class="ddl width150" Height="29px" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="col-md-12 center-block center text-center form-group pull-right">
+                                    <Label ID="lbladdress0" Font-Bold="True" ForeColor="#CC0000" Style="text-align: right" Visible="False" class="hide"></Label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12  form-group pull-right">
+                                    <Label ID="Label14" Text="" CssClass="lablehead" Visible="False" class="hide">Phone No.:</Label>
+                                    <label ID="Label60" CssClass="lablehead" Text="" Visible="False" class="hide">Mobile No.:</label>
+                                    <Label ID="Label61" CssClass="lablehead" Text="" Visible="False" class="hide">e-mail:</Label>
+                                    <Label ID="Label62" CssClass="lablehead" Text="" Visible="False" class="hide">Town:</Label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12  form-group pull-right">
+                                    <input type="text" ID="txtph" CssClass="textbox" placeholder="Phone No." Visible="False" class="hide" />
+                                    <input type="text" ID="txtmb" CssClass="textbox" MaxLength="10" placeholder="Mobile No." Visible="False" class="hide" />
+                                    <input type="text" ID="txtemail" CssClass="textbox" placeholder="e-mail" Visible="False" class="hide" />
+                                    <input type="text" ID="txttwn" CssClass="textbox" placeholder="Town" Visible="False" class="hide" />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </td>
+            </tr>
+        </table>
+        <table id="entry13" class="panel panel-info" style="border: 1px solid #c0c0c0; width: 100%;">
+            <tr>
+
+                <td class="pannelHeadder" colspan="2">
+
+                    <input type="checkbox" ID="chkadd" CssClass="pull-left" ForeColor="white" name="Same as Permanent Address" />
+                    <Label ID="checkb">Same As Permanent Address</Label>
+                    <Label ID="Label25" Text="" Style="font-weight: 700" Font-Bold="True" Font-Size="Large" ForeColor="White">Correspondence Address Details</Label>
+                    <Button ID="Button9" CssClass="btn btn-sm btn-success pull-right"
+                            Style="margin-right: 20px;" Font-Size="X-Small">
+                        Reset For State
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;" class="auto-style31">
+                    <section class="content" style="min-height: 50px;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-right">
+                                    <Label ID="Label13" CssClass="lablehead width150" style="display:block;">State:</Label>
+                                    <select ID="c_state" name="c_state" Class="ddl width150" Height="29px">
+                                        <option value="0">--Select--</option>
+                                        @foreach (var item in state)
+                                        {
+                                            <option value="@item.name">@item.name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-right">
+                                    <Label ID="Label12" CssClass="lablehead width150">District:</Label>
+                                    <select ID="c_district" name="c_district" Class="ddl width150 " Height="29px">
+                                        <option value="0">--Select--</option>
+                                        @foreach (var item in district)
+                                        {
+                                            <option value="@item.name">@item.name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="col-md-12  form-group pull-right">
+                                    <Label ID="Label17" CssClass="lablehead width150" style="display:block;">Tehsil:</Label>
+                                    <select ID="c_town" name="c_town" Class="ddl width150 " Height="29px">
+                                        <option value="0">--Select--</option>
+                                        @foreach (var item in district)
+                                        {
+                                            <option value="@item.name">@item.name</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="col-md-12 form-group pull-left">
+                                    <Label ID="Label18" CssClass="lablehead pull-left width200">Correspondence Address:</Label>
+                                    <input type="text" ID="c_add" name="c_add" CssClass="form-control width200 pull-left " placeholder="Correspondence Address" TextMode="MultiLine" class="ddl width150" Height="50px" />
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 form-group pull-right">
+                                    <Label ID="lbladdress1" Font-Bold="True" ForeColor="#CC0000" Style="text-align: right" Text="Label" class="hide" Visible="False"></Label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 form-group pull-right">
+                                    <Label ID="Label22" Text="Phone No.:" CssClass="lablehead" Visible="False" class="hide"></Label>
+                                    <Label ID="Label63" CssClass="lablehead" Text="Mobile No.:" Visible="False" class="hide"></Label>
+                                    <Label ID="Label64" CssClass="lablehead" Text="e-mail:" Visible="False" class="hide"></Label>
+                                    <label ID="Label65" CssClass="lablehead" Text="Town:" Visible="False" class="hide"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12  form-group pull-right">
+                                    <input type="text" ID="txtcph" CssClass="textbox" Visible="False" class="hide"></input>
+                                    <input type="text" ID="txtcmb" CssClass="textbox" MaxLength="10" Visible="False" class="hide"></input>
+                                    <input type="text" ID="txtcemail" CssClass="textbox" Visible="False" class="hide"></input>
+                                    <input type="text" ID="txtxtwn" CssClass="textbox" placeholder="Town" Visible="False" class="hide"></input>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </section>
+                </td>
+            </tr>
+        </table>
+
+        <br />
+        <table id="entry14" class="panel panel-info" style="border: 1px solid #c0c0c0; width: 100%;">
+            <tr>
+                <td class="pannelHeadder">
+                    <Label ID="Label50" Style="font-weight: 700" Font-Bold="True" Font-Size="Large" ForeColor="White">e-Contact</Label>
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style45" style="text-align: left;">
+                    <section class="content" style="min-height: 150px;">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="col-md-12 ">
+                                    <Label ID="Label47" CssClass="lablehead ptop10 pull-left" Text="">Phone No :</Label>
+                                    <input type="text" ID="c_phone" name="c_phone" placeholder="Phone No" CssClass="form-control pull-left" class="ddl width150" Height="29px" style="display:block;" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12   ">
+                                    <Label ID="Label48" CssClass="lablehead ptop10 pull-left">Mobile No :</Label>
+
+                                    <input type="text" ID="c_mobile" name="c_mobile" CssClass="form-control  pull-left " placeholder="Mobile No." MaxLength="10" class="ddl width150" Height="29px" style="display:block;" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12 ">
+                                    <Label ID="Label49" Text="" CssClass="lablehead ptop10 pull-left">e-Mail :</Label> <br />
+
+                                    <input type="text" ID="c_email" name="c_email" CssClass="form-control pull-left" style="width:100;" class="ddl width150" Height="29px" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12  form-group center-block text-center ">
+                                    <Button ID="Button4" Font-Size="8pt" CssClass="btn btn-sm btn-danger marginUP6" class="bg-green" style="margin-top:40px;">< PrevView</Button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12  form-group center-block text-center ">
+                                    @*<Button ID="Button1" Font-Size="8pt" CssClass="btn btn-sm btn-success marginUP6" class="bg-green" style="margin-top:40px;>
+                                            Next View >
+                                        </Button>*@
+                                    <input type="submit" value=" Save Personal Details" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12  form-group center-block text-center ">
+                                    <Label ID="lblmsg11" ForeColor="#CC0000" Text="Label" Visible="False" class="hide"></Label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12  form-group center-block text-center ">
+                                    <Label ID="lbladdress" Font-Bold="True" ForeColor="#CC0000" Style="text-align: right" Text="Label" Visible="False"></Label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <Label ID="lblErrMsgAddressDetail"></Label>
+            </div>
+        </div>
+    }
+</div>

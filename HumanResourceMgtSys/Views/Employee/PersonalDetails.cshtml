@@ -1,0 +1,325 @@
+﻿@using System.Data;
+@using System.Data.SqlClient;
+@using HumanResourceMgtSys.CustomClasses;
+@model HumanResourceMgtSys.Models.EmpDetails
+@{
+
+    SqlHelper obj = new SqlHelper();
+
+    ViewBag.Title = "PersonalDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    DataTable tblCategory = obj.GetDataTable(@"select id,category FROM category_mas order by id");
+    List<CommonMaster> categories = new List<CommonMaster>();
+    if (tblCategory.Rows.Count > 0)
+    {
+        for (int i = 0; i < tblCategory.Rows.Count; i++)
+        {
+            CommonMaster cat = new CommonMaster();
+            cat.id = Convert.ToInt32(tblCategory.Rows[i]["id"].ToString().Trim());
+            cat.name = tblCategory.Rows[i]["category"].ToString().Trim();
+            categories.Add(cat);
+        }
+    }
+
+
+    DataTable tblGender = obj.GetDataTable(@"select GenderId,GEnderDetail FROM Master_Gender order by genderid");
+    List<CommonMaster> genders = new List<CommonMaster>();
+    if (tblGender.Rows.Count > 0)
+    {
+        for (int i = 0; i < tblGender.Rows.Count; i++)
+        {
+            CommonMaster gen = new CommonMaster();
+            gen.id = Convert.ToInt32(tblGender.Rows[i]["GenderId"].ToString().Trim());
+            gen.name = tblGender.Rows[i]["GEnderDetail"].ToString().Trim();
+            genders.Add(gen);
+        }
+    }
+
+
+    DataTable tblReligion = obj.GetDataTable(@"select id,religion FROM religion_mas order by id");
+    List<CommonMaster> religions = new List<CommonMaster>();
+    if (tblReligion.Rows.Count > 0)
+    {
+        for (int i = 0; i < tblReligion.Rows.Count; i++)
+        {
+            CommonMaster reg = new CommonMaster();
+            reg.id = Convert.ToInt32(tblReligion.Rows[i]["id"].ToString().Trim());
+            reg.name = tblReligion.Rows[i]["religion"].ToString().Trim();
+            religions.Add(reg);
+        }
+    }
+
+
+    DataTable tblDesignations = obj.GetDataTable(@"select id,designation FROM designation_mas  order by id");
+    List<CommonMaster> designations = new List<CommonMaster>();
+    if (tblDesignations.Rows.Count > 0)
+    {
+        for (int i = 0; i < tblDesignations.Rows.Count; i++)
+        {
+            CommonMaster desig = new CommonMaster();
+            desig.id = Convert.ToInt32(tblDesignations.Rows[i]["id"].ToString().Trim());
+            desig.name = tblDesignations.Rows[i]["designation"].ToString().Trim();
+            designations.Add(desig);
+        }
+    }
+
+
+
+    <!-- bootstrap datepicker daterange picker -->
+    @*<link rel="stylesheet" href="~/Content/assets/Plugin/daterangepicker/daterangepicker.css">*@
+    <link rel="stylesheet" href="~/Content/assets/Plugin/datepicker/datepicker3.css">
+    <script src="~/Content/assets/Plugin/datepicker/bootstrap-datepicker.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            //Date picker
+            $('#dateOfBirth').datepicker({
+                autoclose: true
+            });
+        });
+
+        function fillSubcategory() {
+            var value = $("#subcategory option:selected");
+            $("#subcategoryName").val(value.text());
+        }
+    </script>
+}
+
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <div id="headderDivToPrint" style="display: none;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 15%">
+                    <img src="~/Content/assets/img/logo.png" />
+                </td>
+                <td style="text-align: center;">
+                    <h1 class="box-title">Human Resource Management System, PWD Uttarakhand</h1>
+                </td>
+                <td style="width: 15%"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Main content -->
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <section class="content">
+            @*<form asp-controller="Employee" asp-action="PersonalDetails" method="post">*@
+
+            <table id="tblPersonalDetails" class="panel panel-info" style="border: 1px solid #c0c0c0; width: 100%; border-radius: 25px;">
+                <tr style="text-align: center; width: 80%;">
+                    <td class="pannelHeadder">
+                        <label id="Label3" Style="font-weight:700;font-size:larger;color:white">Employee Details</label>
+                        <input type="hidden" name="entry_date" id="entry_date" value="@DateTime.Now.ToString()" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <section class="content" style="min-height: 75px; padding: 0px">
+                            <div class="row">
+                                <div class="col-md-12 pbottom10">
+                                    <br />
+                                    <panel id="pnlregdetails" style="width:100%;">
+                                        <div class="col-md-4">
+                                            <div class="col-md-12  form-group pull-left">
+                                                <label id="Label51" class="lablehead width150 ">Employee Code:</label>
+                                                <input type="text" id="emp_code" name="emp_code" placeholder="Employee Code" class="form-control width150" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-12  form-group pull-left">
+                                                <label id="Label1" class="lablehead  width150 ">Name:</label>
+                                                <input type="text" id="emp_name" name="emp_name" placeholder="Employee Name" class="form-control width150" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group pull-left">
+                                                <label id="Label2" class="lablehead width200 ">Father's/Husband Name:</label>
+                                                <input type="text" id="emp_fname" name="emp_fname" Style="width: 165px!important" placeholder="Father's Name" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </panel>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="content" style="min-height: 150px; padding: 0px 15px;">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="col-md-12 form-group pull-left">
+                                        <label id="Label30" class="lablehead width150">Date of Birth:</label>
+                                        <div class="input-group date" style="display:inline-block;">
+
+                                            <input type="date" class="form-control pull-right" Style="width: 165px!important" id="dob" name="dob">
+                                        </div>
+
+                                        <!-- /.input group -->
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label4" class="lablehead width150">Gender:</label>
+                                        <select id="gender" name="gender" class="ddl width150" Height="29px">
+                                            <option value="">--Select--</option>
+                                            @foreach (var item in genders)
+                                            {
+                                                <option value="@item.name">@item.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label5" class=" lablehead width150">Religion:</label>
+                                        <select id="religion" name="religion" class="ddl width150" Height="29px">
+                                            <option value="">--Select--</option>
+                                            @foreach (var item in religions)
+                                            {
+                                                <option value="@item.name">@item.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label6" class="lablehead width150">Category:</label>
+                                        <select id="category" name="category" class="ddl width150" Height="29px">
+                                            <option value="">--Select--</option>
+                                            @foreach (var item in categories)
+                                            {
+                                                <option value="@item.name">@item.name</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label7" class="lablehead width150">Sub-Category:</label>
+                                        <select id="subcategory" name="subcategory" class="ddl width150 " onchange="fillSubcategory()" Height="29px">
+                                            <option Value="0">Select</option>
+                                            <option Value="1">None</option>
+                                            <option Value="2">Uttrakhand Dependent of Freedom Fighters </option>
+                                            <option Value="3">Ex-Servicemen </option>
+                                            <option Value="4">Female </option>
+                                            <option Value="5">Physical Handicap</option>
+                                            <option Value="6">Sports</option>
+                                        </select>
+                                        <input type="text" id="subcategoryName" name="subcategoryName" class="hide" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label8" class="lablehead width150">PAN No:</label>
+                                        <input type="text" id="pan" name="pan" placeholder="PAN No." r class="form-control width150 text-uppercase" MaxLength="10" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label9" class="lablehead width150">Aadhar No.:</label>
+                                        <input type="text" id="aadhar" name="aadhar" placeholder="Aadhar No." class="form-control width150" MaxLength="12"></input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label31" class="lablehead width150">Height(in cm):</label>
+                                        <input type="text" id="emp_height" name="emp_height" placeholder="Height(in cm)" class="form-control width150" MaxLength="3"></input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label32" class="lablehead width150">Identification Mark:</label>
+                                        <input type="text" id="emp_idy" name="emp_idy" class="form-control width150 " placeholder="Identification Mark" MaxLength="500"></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label33" class="ptop10 lablehead pull-left">Current Marital Status:</label>
+                                        <select id="emp_martial" name="emp_martial" class="ddl width150" Height="29px">
+                                            <option Value="0">Select</option>
+                                            <option Value="Married">Married</option>
+                                            <option Value="Un-Married">Un-Married</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 hide">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label19" class="lablehead width150">Blood Group:</label>
+                                        <input type="text" id="blood_Group" name="blood_Group" placeholder="Enter Blood Group" class="form-control width150 " />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 hide">
+                                    <div class="col-md-12  form-group pull-right">
+                                        <label id="Label55" class="lablehead width150">Voter Card No:</label>
+                                        <input type="text" id="voterCard_No" name="voterCard_No" placeholder="Enter Voter id No" class="form-control width150 "></input>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="col-md-12 form-group pull-left">
+                                        <label id="lblCurrentDesig" class="ptop10 lablehead pull-left pull-left-text ">Employee's Current Designation: </label>
+                                        <select id="txtdsg" name="txtdsg" class="ddl width250" Height="28px" style="margin-top: 8px;margin-right: 48px;">
+                                            <option value="">--Select--</option>
+                                            @foreach (var item in designations)
+                                            {
+                                                <option value="@item.name">@item.name</option>
+                                            }
+                                        </select>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <label id="lblpersonal" class="alert alert-danger " Font-Bold="True"
+                                               ForeColor="#CC0000" style="display:none;">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6 text-center center-block">
+                                    <div class="col-md-12  form-group pull-right">
+                                        @*<button id="btnSavePersonalDetails" Font-Size="8pt" class="btn btn-sm btn-success marginUP6">
+
+                                            </button>*@
+                                        <input type="submit" value=" Save Personal Details" class="btn btn-default" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6">
+                                    <label name="lblErrMsgPersonalDetail" id="lblErrMsgPersonalDetail"></label>
+                                </div>
+                            </div>
+                        </section>
+                    </td>
+                </tr>
+            </table>
+
+
+
+        </section>
+    }
+</div>

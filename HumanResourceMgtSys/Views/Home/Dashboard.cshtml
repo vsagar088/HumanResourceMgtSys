@@ -1,0 +1,495 @@
+﻿
+@{
+    ViewBag.Title = "Dashoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    <script src="~/Scripts/login/md5.js" type="text/javascript"></script>
+
+    <style>
+        #tblTree td {
+            padding: 0px !important;
+            margin: 0px !important;
+            border: none;
+        }
+
+            #tblTree td div {
+                margin: 0px 20px !important;
+            }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                // $("#tblTree td span, #tblTree td div").hide();
+                //$("#tblTree td span, #tblTree td div").show(5000);
+                showDelayedTree();
+                $("body").addClass(" sidebar-collapse ");
+                var username = setControlValue("txtUsername", "");
+                var password = setControlValue("txtPassword", "");
+            });
+        });
+
+        function showDelayedTree() {
+            $("#tblTree td img").each(function () {
+                // setTimeout(function () {
+                //$("#tblTree td span").slideDown(9000);
+                //$("#tblTree td div").slideDown(9000);
+
+                $(this).animate({ height: "60px" });
+                // }, 90);
+                // do your cool stuff
+            });
+        }
+
+        function md5auth1(seed) {
+            var username = getControlValue(txtUsername);
+            var password = getControlValue(txtPassword);  
+
+            var hash = MD5(password);
+            //alert("USER = " + username + " / " + password + "  => hash  " + hash);
+
+            document.forms[0].hash.value = hash;
+            //document.forms[0].txtPassword.value = hash;
+            $("#" + passwordID).val(hash);
+
+            if (password.length < 8) {
+                //document.forms[0].txtPassword.focus();
+                $("#" + passwordID).focus();
+                return -1;
+                return false;
+            }
+            return true;
+        }
+        function noFrame() {
+            if (parent.frames.length > 0) {
+                parent.location.href = window.location
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+
+        function removeReadOnly(thiss) {
+            $("#" + thiss.id).removeAttr("readonly");
+        }
+        //function addReadOnly(thiss)
+        //{
+        //    $("#this.id").attr("readonly","true");
+        //}
+
+
+    </script>
+}
+ 
+<input type="hidden" id="hidHashC" name="hidHashC" />
+<input type="hidden" id="hidHashU" name="hidHashU" />
+<input type="hidden" id="hash" name="hash"  />
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <div id="headderDivToPrint" style="display: none;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 15%">
+                    <img src="~/Content/assets/img/logo.png" />
+                </td>
+                <td style="text-align: center;">
+                    <h1 class="box-title">  </h1>
+                </td>
+                <td style="width: 15%"></td>
+            </tr>
+        </table>
+    </div>
+    <!-- Main content -->
+    <section class="content">
+        <section class="col-lg-12">
+            <!-- First Row Small boxes (Stat box) -->
+            <div class="row">
+
+                <!-- ./col -->
+                <div class="col-lg-2 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-teal h95" style="background-color: #33AABF!important;">
+                        <div class="inner">
+                            <h3>
+                                <label id="lblCE" name="lblCE"></label>
+                            </h3>
+
+                            <p>Chief Engineers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ./col -->
+                <div class="col-lg-2 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-purple h95">
+                        <div class="inner">
+                            <h3>
+                                <label id="lblSE" name="lblSE"></label>
+                            </h3>
+
+                            <p>Superintendent Engineers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ./col -->
+                <div class="col-lg-2 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow h95">
+                        <div class="inner">
+                            <h3>
+                                <label in="lblEE" name="lblEE"></label>
+                            </h3>
+
+                            <p>Executive Engineers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ./col -->
+                <div class="col-lg-2 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-maroon-active h95">
+                        <div class="inner">
+                            <h3>
+                                <label id="lblAE" name="lblAE"></label>
+                            </h3>
+
+                            <p>Assistant Engineers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ./col -->
+                <div class="col-lg-2 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red h95">
+                        <div class="inner">
+                            <h3>
+                                <label ID="lblJE" name="lblJE"></label>
+                            </h3>
+
+                            <p>Junior Engineers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ./col -->
+                <div class="col-lg-2 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua h95">
+                        <div class="inner">
+                            <h3>
+                                <label ID="lblAllEmp" name="lblAllEmp"> </label>
+                            </h3>
+                            <p>All Engineers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ./ First Row Small boxes (Stat box) -->
+        </section>
+        <br />
+        <!-- Second row For login and Graphs -->
+        <div class="row">
+            <!-- Left col -->
+            <section class="col-lg-9">
+                <div class="row">
+                    <section class="col-lg-12" style="height: 180px;">
+                        <div class="box box-warning">
+                            <div class="box-body">
+                                <p style="font-size: 13px">
+                                    Human Resource Management is the planning, organising, directing and controlling of the procurement development compensation integration,
+                                    for intenance, and separation of human resources to the end that individual, organisational and social objectives are accomplished.
+                                    <br />
+                                    PWD HRMS Dashboard provides information & data regarding New joinings (Registration), Trainings, Promotion/Demotion, Deputation, Rejoing after Deputation,
+                                    Suspension, Rejoin after Suspension, Resignation,Monitoring ( Zone, Circle, Division wise)etc. This will eliminates thousands of files and frees up space within the office.
+                                    The use of Human Resources Management Systems (HRMS) has made it possible for companies to store and retrieve files in an electronic format for people within
+                                    the organization to access when needed. Another benefit of HRMS is that it allows for information to be accessed in a timelier manner.
+                                    Training new staff members in a more efficient manner. This gives employees the ability to access onboarding and training programs from anywhere.
+                                    Officers are able to track the training through the internet as well, which can help to reduce redundancy in training as well as training costs.
+                                </p>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </section>
+                </div>
+            </section>
+            <!-- /. Left col -->
+            <!-- Right col -->
+            <section class="col-lg-3 ">
+                <div class="row">
+                    <!-- Right col -->
+                    <section class="col-lg-12 " runat="server" id="divLoginUser">
+                        <div class="box box-success" style="height: 180px;">
+                            <div class="box-header">
+                                <i class="glyphicon glyphicon-save-file"></i>
+                                <h3 class="box-title">Login Pannel</h3>
+                            </div>
+                            <div class="box-body" runat="server" id="divToLogin">
+                                <asp:Panel ID="pnlLogin" runat="server" DefaultButton="btnlogin">
+                                    <table>
+                                        <tr>
+                                            <td style="width: 95px;">
+                                                <div class="form-group has-feedback">
+                                                    <label class="loginFont13">User Name : </label>
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div class="form-group has-feedback">
+                                                    <input type="text" class="form-control" name="txtUsername" style="background-color:#ffff80;width:100%;"
+                                                                 id="txtUsername" placeholder="User Name" />
+                                                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group has-feedback">
+                                                    <label class="loginFont13">Password : </label>
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div class="form-group has-feedback">
+                                                    <input type="password" class="form-control" name="txtPassword" style="background-color:#ffff80;width:100%;"
+                                                                 id="txtPassword" placeholder="Password" />
+                                                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @* <a href="frmchange_password.aspx">I forgot my password</a><br /> *@
+                                            </td>
+                                            <td>
+                                                <div class="form-group has-feedback">
+                                                    <button ID="btnlogin" type="submit" name="btnlogin"
+                                                            class="btn btn-success btn-sm marginUP6 center-block" required="required"
+                                                             OnClick="btnlogin_Click()">
+                                                        Sign In
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <label ID="lblErrorMsg" Visible="true" name="lblErrorMsg" Style="color: red; font-size: 10px;"></label>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </asp:Panel>
+                            </div>
+                            <!-- /.login-box-body -->
+                        </div>
+                        <!-- /.login-box -->
+                    </section>
+                    <!-- /.Left col -->
+
+                </div>
+            </section>
+            <!-- /. Right col -->
+        </div>
+        <!-- /.row (main row) -->
+        <!-- ./ Second row For login and Graphs -->
+        <br />
+
+        <!-- Third row For Boxes -->
+        <div class="row">
+            <section class="col-lg-12 ">
+                <div class="row">
+                    <section class="col-lg-12" style="height: 180px;">
+                        <div class="box active box-info">
+                            <div class="box-body">
+                                <!-- First Row Small boxes (Stat box) -->
+                                <div class="row">
+                                    <!-- ./col -->
+                                    <div class="col-lg-12 col-xs-12">
+                                        <table id="tblTree" style="width: 100%; max-width: 100%; border: none">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td colspan="3">
+                                                    <!-- small box -->
+                                                    <div class="small-box bg-teal" style="background-color: #33AABF!important; margin: 0px;">
+                                                        <div class="inner center-block text-center">
+                                                            <h5>
+                                                                Retirements this Year (
+                                                                <label id="lblThisYear" name="lblThisYear"></label>
+                                                                )
+                                                            </h5>
+                                                            <div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="text-center" style="width: 13%;">
+                                                    <span style="display: inline-block; width: 2px; height: 100%; text-align: center;">
+                                                        <img style="width: 20px; height: 32px; margin-top: -2px;" src="~/Content/assets/Images/arrowDown.png" />
+                                                    </span>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-center " colspan="5">
+                                                    <span style="display: block; width: 80.2%; height: 2px; background-color: black; margin-left: 9.9%; margin-top: -2px;"></span>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center" style="width: 13%;"></td>
+                                                <td class="text-center" style="width: 13%;">
+                                                    <span style="width: 2px; height: 100%; text-align: center;">
+                                                        <img style="width: 20px; height: 30px; margin-top: -2px;" src="~/Content/assets/Images/arrowDown.png" />
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" style="width: 13%;">
+                                                    <span style="width: 2px; height: 100%; text-align: center;">
+                                                        <img style="width: 20px; height: 30px; margin-top: -2px;" src="~/Content/assets/Images/arrowDown.png" />
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" style="width: 13%;">
+                                                    <span style="width: 2px; height: 100%; text-align: center;">
+                                                        <img style="width: 20px; height: 30px; margin-top: -2px;" src="~/Content/assets/Images/arrowDown.png" />
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" style="width: 13%;">
+                                                    <span style="width: 2px; height: 100%; text-align: center;">
+                                                        <img style="width: 20px; height: 30px; margin-top: -2px;" src="~/Content/assets/Images/arrowDown.png" />
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" style="width: 13%;">
+                                                    <span style="width: 2px; height: 100%; text-align: center;">
+                                                        <img style="width: 20px; height: 30px; margin-top: -2px;" src="~/Content/assets/Images/arrowDown.png" />
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" style="width: 13%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <!-- small box -->
+                                                    <div class="small-box bg-teal h95" style="background-color: #33AABF!important;">
+                                                        <div class="inner center-block text-center">
+                                                            <h5>
+                                                                CE (
+                                                                <label ID="lblCERetire" name="lblCERetire"></label>
+                                                                )
+                                                            </h5>
+                                                            <div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <!-- small box -->
+                                                    <div class="small-box bg-teal h95" style="background-color: #33AABF!important;">
+                                                        <div class="inner center-block text-center">
+                                                            <h5>
+                                                                SE (
+                                                                <label ID="lblSERetire" name="lblSERetire"></label>
+                                                                )
+                                                            </h5>
+                                                            <div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <!-- small box -->
+                                                    <div class="small-box bg-teal h95" style="background-color: #33AABF!important;">
+                                                        <div class="inner center-block text-center">
+                                                            <h5>
+                                                                EE  (
+                                                                <label ID="lblEERetire" name="lblEERetire"></label>
+                                                                )
+                                                            </h5>
+                                                            <div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <!-- small box -->
+                                                    <div class="small-box bg-teal h95" style="background-color: #33AABF!important;">
+                                                        <div class="inner center-block text-center">
+                                                            <h5>
+                                                                AE  (
+                                                                <label ID="lblAERetire" name="lblAERetire"></label>
+                                                                )
+                                                            </h5>
+                                                            <div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <!-- small box -->
+                                                    <div class="small-box bg-teal h95" style="background-color: #33AABF!important;">
+                                                        <div class="inner center-block text-center">
+                                                            <h5>
+                                                                JE  (
+                                                                <label ID="lblJERetire" name="lblJERetire"></label>
+                                                                )
+                                                            </h5>
+                                                            <div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+
+                                <p style="font-size: 13px">
+                                    @*<asp:GridView CssClass="table table-responsive table-bordered" HeaderStyle-CssClass="bg-aqua" runat="server" ID="GrdRetitingThisYear">
+                                    </asp:GridView>*@
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
